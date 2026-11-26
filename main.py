@@ -24,6 +24,12 @@ def main():
         os.makedirs(parent, exist_ok=True)
     with open(DST, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
+    # Self-check: re-read what was written and confirm it is exactly
+    # the entry the gate will see (same bytes, same length).
+    with open(DST, "r", encoding="utf-8") as f:
+        written = f.read()
+    if written != text:
+        raise ValueError("written entry does not match: %r" % written)
     print("wrote %s (%d chars)" % (DST, len(text)))
 
 
